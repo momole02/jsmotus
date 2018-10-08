@@ -1,0 +1,13 @@
+ .footer{
+ 	color:gray;
+ 	background: #F7F7F7;
+ 	padding: 20px;
+ 	text-align: center;
+ 	font-size: 13px;
+ }
+
+.panel{
+	height: 100%;
+	width:100%
+	padding: 10px;
+}
