@@ -20,6 +20,7 @@ class Panel{
 		this.width = 32;
 		this.height = 32;
 		this.offset = 3;
+		this.points=0;
 	}
 
 
@@ -31,11 +32,15 @@ class Panel{
 		let width = this.width;
 		let height = this.height;
 		let offset = this.offset;
+		this.__currentRow = 0;
 
-		$(this.__marker).html('');
+		$("#points").html(this.points);
+
+		$('#'+this.__marker).html('');
 		let element = SVG(this.__marker).size('100%',8*(offset+height));
 		let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		this.element = element;
+
 		for(let i=0;i<8;++i){
 			for( let j=0;j<8;++j ){
 				let x = i*(width+offset);
@@ -81,12 +86,12 @@ class Panel{
 	writeWord( word , analysis_results ){
 		let element = this.element;
 		let results = analysis_results;
+
 		for( let i=0;i<8;++i ){
+
 			let x = i*(this.width+this.offset)+5;
 			let y = this.__currentRow*(this.height+this.offset);
-
 			if( analysis_results != null && analysis_results != undefined ){
-				;
 				if( results[i]['contain']===true ){
 					if( results[i]['wellpos']===true ){ /* bien positionné */
 						element
@@ -97,7 +102,7 @@ class Panel{
 						element
 							.ellipse(32,32)
 							.move(x-5,y).fill('#FFF9B8');	
-							
+
 						
 					}	
 				}
@@ -111,16 +116,33 @@ class Panel{
 
 	/* effectue une propostion de mots */
 	propose( str ){
-		let regex = /[ABCDEFGHIJKLMNOPQRSTUVWXYZ]/i;
+		let regex = /^[ABCDEFGHIJKLMNOPQRSTUVWXYZ]+$/i;
 		if( !regex.test(str) ){
 			alert("Le mot ne dois pas contenir d'espaces et caractères spéciaux");	
 		}else if(str.length !== 8){
-			alert('Mot de 8 caractères exigé')
+			alert('Mot de 8 caractères exigé');
 		}else{
-			this.__currentRow = this.__currentRow + 1;
-			let analysisResults = this.analyzeWord(str.toUpperCase());
 
+			str = str.toUpperCase();
+			let analysisResults = this.analyzeWord(str);
+			this.__currentRow = this.__currentRow + 1;
 			this.writeWord( str , analysisResults );
+			let win=true;
+			for( let i=0;i<analysisResults.length;++i ){
+				if( !analysisResults[i].wellpos ) win=false;
+			}
+			if( win ){
+				$('#SVGDrawing').html('<h3 style="color:green">Vous avez gagné !</h3>');
+				setTimeout( ()=>{console.log('Hello');this.initialize()},1000);
+				this.points = this.points+15;
+				$("#points").html(this.points);
+
+			}else{
+				if( this.__currentRow==7 ){
+					$('#SVGDrawing').html('<h3 style="color:red">Vous avez perdu !</h3>');
+					setTimeout( ()=>{this.initialize()},1000 );	
+				}
+			}
 		}
 	}
 }
