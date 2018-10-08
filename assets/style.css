@@ -1,0 +1,11 @@
+ .footer{
+ 	color:gray;
+ 	background: #F7F7F7;
+ 	padding: 20px;
+ 	text-align: center;
+ 	font-size: 13px;
+ }
+
+.panel{
+	padding: 10px;
+}
