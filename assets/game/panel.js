@@ -6,10 +6,15 @@
 
 'use strict';
 
+
+const WORD_SIZE_MISMATCH = -1;
+
 class Panel{
 
 	constructor() {
 
+		this.__toFind = "MOMOOOLE";
+		this.__masked = "M.M..OL."; 
 	}
 
 	/*
@@ -39,13 +44,33 @@ class Panel{
 				element
 				.text(alphabet[(i+j*8)%26])
 				.font({size:30}).move( x+5,y );*/
-				
+
 			}
 		}
 	}
 
 
-	propose( str ){
+	/* analyse les differentes lettre du mot par rapport au mot à trouver */
+	analyzeWord( word ){
+		let results = [];
+			if( word.length === this.__toFind.length ){
+			for( let i=0;i<word.length;++i ){
+				results[i] = {
+					'letter' : word[i],
+					'contain' : (this.__toFind.indexOf(word[i])!=-1), /* vrai si le mot à deviner contient cette lettre */
+					'wellpos' : (this.__toFind[i]===word[i]), /* vrai si les position des lettres sont les memes dans 
+					le mot à deviner et le mot soumis*/
+				}
+			}
+			return results;
+		}
+		return WORD_SIZE_MISMATCH;
+		
+	}
 
+	/* effectue une propostion de mots */
+	propose( str ){
+		let regex = /[^\s]/i;
+		this.analyzeWord(str.toUpperCase());
 	}
 }

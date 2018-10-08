@@ -6,8 +6,16 @@
  	font-size: 13px;
  }
 
+ .content-wrap{
+ 	padding: 5px;
+ }
+
 .panel{
 	height: 100%;
 	width:100%
 	padding: 10px;
+}
+
+.proposition{
+	font-size:20px;
 }
