@@ -15,19 +15,27 @@ class Panel{
 
 		this.__toFind = "MOMOOOLE";
 		this.__masked = "M.M..OL."; 
+		this.__currentRow = 0;
+		this.__marker = 'SVGDrawing';
+		this.width = 32;
+		this.height = 32;
+		this.offset = 3;
 	}
+
 
 	/*
 		initialise le panel de jeu qui est une zone de dessin SVG
 	*/
-	initialize( SVGpanel ){
-		let width = 32;
-		let height = 32;
-		let offset = 2;
+	initialize( ){
 
-		let element = SVG('SVGDrawing').size('100%',8*(offset+height));
+		let width = this.width;
+		let height = this.height;
+		let offset = this.offset;
+
+		$(this.__marker).html('');
+		let element = SVG(this.__marker).size('100%',8*(offset+height));
 		let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
+		this.element = element;
 		for(let i=0;i<8;++i){
 			for( let j=0;j<8;++j ){
 				let x = i*(width+offset);
@@ -47,6 +55,7 @@ class Panel{
 
 			}
 		}
+		this.writeWord( this.__masked );
 	}
 
 
@@ -68,9 +77,50 @@ class Panel{
 		
 	}
 
+	/* ecrit un mot */
+	writeWord( word , analysis_results ){
+		let element = this.element;
+		let results = analysis_results;
+		for( let i=0;i<8;++i ){
+			let x = i*(this.width+this.offset)+5;
+			let y = this.__currentRow*(this.height+this.offset);
+
+			if( analysis_results != null && analysis_results != undefined ){
+				;
+				if( results[i]['contain']===true ){
+					if( results[i]['wellpos']===true ){ /* bien positionné */
+						element
+							.rect(32, 32 )
+							.move(x-5, y)
+							.fill('#F7A47C');
+					}else{ /* mal positionné */
+						element
+							.ellipse(32,32)
+							.move(x-5,y).fill('#FFF9B8');	
+							
+						
+					}	
+				}
+			}
+
+			element
+				.text(word[i])
+				.font({size:30}).move(x,y);
+		}
+	}
+
 	/* effectue une propostion de mots */
 	propose( str ){
-		let regex = /[^\s]/i;
-		this.analyzeWord(str.toUpperCase());
+		let regex = /[ABCDEFGHIJKLMNOPQRSTUVWXYZ]/i;
+		if( !regex.test(str) ){
+			alert("Le mot ne dois pas contenir d'espaces et caractères spéciaux");	
+		}else if(str.length !== 8){
+			alert('Mot de 8 caractères exigé')
+		}else{
+			this.__currentRow = this.__currentRow + 1;
+			let analysisResults = this.analyzeWord(str.toUpperCase());
+
+			this.writeWord( str , analysisResults );
+		}
 	}
 }
