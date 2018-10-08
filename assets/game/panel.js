@@ -21,21 +21,31 @@ class Panel{
 		let offset = 2;
 
 		let element = SVG('SVGDrawing').size('100%',8*(offset+height));
-		let clientWidth=element.node.clientWidth;
-		let padWidth = 8*(offset+width);
-		let startX = (clientWidth-padWidth)/2;
+		let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 		for(let i=0;i<8;++i){
 			for( let j=0;j<8;++j ){
-				element.rect(32, 32 )
-				.move(startX+i*(width+offset) , j*(height+offset))
-				.fill('#82D6FF');
+				let x = i*(width+offset);
+				let y = j*(height+offset);
+				element
+					.rect(32, 32 )
+					.move( x, y)
+					.fill('#82D6FF');
+
+				/*element
+					.ellipse(32,32)
+					.move(x,y).fill('#FFF9B8');
+
+				element
+				.text(alphabet[(i+j*8)%26])
+				.font({size:30}).move( x+5,y );*/
+				
 			}
 		}
 	}
 
 
-	propose(){
+	propose( str ){
 
 	}
 }
