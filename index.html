@@ -4,6 +4,7 @@
 	<title>::JSMotus::</title>
 	<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="assets/style.css">
+	<meta charset="utf-8">
 </head>
 <body>
 
@@ -14,14 +15,33 @@
 </nav>
 
 <div class="row">
+	<div class="col-md-12 ">
+		<div class="hud">
+			
+		<b>Points :<span id="points">(...)</span></b>
+		</div> 
+	</div>
+</div>
+
+<div class="row">
 	<div class="col-md-6" >
 		<div class="panel">
 		<div class="card">
 		  <div class="card-header">
 		    <b>Panel de jeu</b>
 		  </div>
-		  <div id="SVGDrawing">
-		  </div>
+
+			<div class="content-wrap">
+			  <div id="SVGDrawing">
+			  </div>
+			</div>
+			<div class="note" id="theNote">
+				<ul>
+					<li>Lorsqu'une lettre est en jaune, elle existe dans le bon mot mais est mal placée</li>
+					<li>Lorsqu'une lettre est en rouge, elle existe dans le bon mot et est bien placée</li>
+					<li>Lorsqu'une lettre n'est pas marquée, elle n'existe pas dans le mot</li>
+				</ul>
+			</div>
 		</div>	
 		</div>
 	</div>
@@ -33,7 +53,21 @@
 			    <b>Proposition</b>
 			  </div>
 			  <div >
-			  	
+			  	<div class="content-wrap">
+
+			  		<form id="propositionForm">
+			  		<h5>Quel mot proposez vous ?</h5>
+			  		<ul>
+			  			<li>Mots de 8 caractères uniquement</li>
+			  			<li>Lettres majusucules uniquement</li>
+			  			<li>Pas de caractères spéciaux ou accentués</li>
+			  		</ul>
+			  		<div class="form-group">
+			  			<input class="form-control proposition" id="proposition" type="text" required="" >	
+			  		</div>
+			  		<button class="btn btn-warning">Proposer !</button>
+			  	</form>
+			  	</div>
 			  </div>
 			</div>
 		</div>
@@ -51,7 +85,9 @@
 <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
 <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.js"></script> 
 <script type="text/javascript" src="bower_components/svg.js/dist/svg.js"></script>
+<script type="text/javascript" src="assets/game/dico.js"></script>
 <script type="text/javascript" src="assets/game/panel.js"></script>
+<script type="text/javascript" src="assets/game/jingle.js"></script>
 <script type="text/javascript" src="assets/app.js"></script>
 </body>
 </html>
